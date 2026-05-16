@@ -1,19 +1,3 @@
-# --- 0. 环境设置与依赖包检查 ---
-cat("--- 脚本启动: 检查并安装依赖包 ---\n")
-
-# 定义所有必需的包
-required_packages <- c("data.table", "dplyr", "mediation", "foreach", "doParallel")
-
-# 设置清华镜像
-options(repos = c(CRAN = "https://mirrors.tuna.tsinghua.edu.cn/CRAN/"))
-
-# 检查并安装
-packages_to_install <- required_packages[!sapply(required_packages, requireNamespace, quietly = TRUE)]
-if (length(packages_to_install) > 0) {
-  cat("正在安装缺失包: ->", paste(packages_to_install, collapse = ", "), "\n")
-  install.packages(packages_to_install)
-}
-
 # 加载包
 suppressPackageStartupMessages({
   library(data.table)

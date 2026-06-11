@@ -4,7 +4,7 @@ Code and analytical resources for a UK Biobank-based multimodal oculomics atlas 
 
 ## Overview
 
-Retinal imaging provides a non-invasive window into systemic health. This repository contains the main analysis scripts used to investigate associations between multimodal retinal imaging features and systemic diseases, with downstream analyses including disease-wide association testing, risk prediction, feature importance ranking, mediation analysis, genetic colocalization, Mendelian randomization, and pathway enrichment.
+Retinal imaging provides a non-invasive window into systemic health. This repository contains the main analysis scripts used to investigate associations between multimodal retinal imaging features and systemic diseases, with downstream analyses including disease-wide association testing, risk prediction, feature importance ranking, mediation analysis, genetic colocalization, LDSC genetic correlation, and pathway enrichment.
 
 The analytical framework integrates:
 
@@ -12,7 +12,7 @@ The analytical framework integrates:
 - Fundus photograph-derived retinal features
 - Systemic disease phenotypes
 - Proteomic and molecular annotations
-- Genetic instruments and summary statistics
+- GWAS summary statistics and LD-score resources
 - Machine learning-based risk prediction models
 
 The overall aim is to characterize the disease-wide relevance, biological basis, and translational potential of oculomic biomarkers.
@@ -28,6 +28,7 @@ The overall aim is to characterize the disease-wide relevance, biological basis,
 | `LGBM_importance_rank.py` | Five-fold cross-validation and feature importance ranking for LightGBM models. |
 | `mediation_analysis.R` | Mediation analysis to evaluate whether retinal features mediate associations between upstream exposures and disease outcomes. |
 | `coloc.R` | Genetic colocalization analysis between retinal features and disease-associated loci. |
+| `ldsc/` | Sanitized LDSC workflow for genetic correlation analysis between retinal imaging traits and disease traits. |
 | `enrichment.R` | Pathway enrichment analysis for disease-associated proteins or molecular signatures. |
 
 ## Script descriptions
@@ -137,16 +138,33 @@ The results should be interpreted cautiously, as mediation analysis relies on as
 
 **Title:** Genetic colocalization analysis of retinal features and disease traits
 
-This script performs genetic colocalization analysis to assess whether retinal imaging features and disease traits share the same causal genetic variants at specific loci.
+This script performs genetic colocalization analysis to assess whether retinal imaging features and disease traits share the same genetic signal at specific loci.
 
 Typical use cases include:
 
-- Testing shared genetic architecture between retinal features and systemic diseases
-- Prioritizing loci with evidence of common causal variants
+- Testing locus-level sharing between retinal features and systemic diseases
+- Prioritizing loci with evidence of shared genetic signals
 - Distinguishing colocalization from linkage disequilibrium-driven overlap
-- Supporting causal and mechanistic interpretation of oculomics–disease associations
+- Supporting interpretation of the genetic architecture underlying oculomics-disease associations
 
 The analysis requires genome-wide association summary statistics for retinal imaging traits and disease outcomes.
+
+---
+
+### `ldsc/`
+
+**Title:** LDSC genetic correlation workflow
+
+This folder contains a sanitized shell-based workflow for estimating genome-wide genetic correlations between retinal imaging traits and disease traits using LD Score Regression. The workflow first munges retinal feature GWAS and disease GWAS summary statistics, then performs pairwise LDSC genetic correlation analyses.
+
+Typical use cases include:
+
+- Estimating genome-wide genetic correlations between retinal features and systemic diseases
+- Testing whether retinal imaging traits and disease traits share inherited architecture
+- Integrating retinal feature GWAS with external disease GWAS summary statistics
+- Generating LDSC `rg`, standard error, and P-value outputs for downstream interpretation
+
+LDSC genetic correlation should be interpreted as evidence of shared genetic architecture rather than direct causality.
 
 ---
 
@@ -176,7 +194,7 @@ The main analytical workflow can be summarized as follows:
 4. Develop oculomics-based risk prediction models using LightGBM.
 5. Rank predictive retinal features using cross-validation-based feature importance.
 6. Investigate potential mediation effects involving retinal features.
-7. Explore genetic evidence using Mendelian randomization and colocalization analyses.
+7. Explore genetic evidence using LDSC genetic correlation and colocalization analyses.
 8. Interpret molecular associations through pathway enrichment analysis.
 
 ## Data availability
@@ -206,10 +224,15 @@ The analyses use both Python and R. Required packages may include, but are not l
 - `dplyr`
 - `data.table`
 - `survival`
-- `TwoSampleMR`
 - `coloc`
 - `clusterProfiler`
 - `ggplot2`
+
+### External tools
+
+- LDSC
+- HapMap3 SNP list for summary-statistics munging
+- LD-score reference files matched to the ancestry of the GWAS data
 
 Package versions may affect reproducibility. Users are encouraged to record package versions and computational environments when rerunning the analyses.
 

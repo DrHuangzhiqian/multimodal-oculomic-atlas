@@ -28,7 +28,6 @@ The overall aim is to characterize the disease-wide relevance, biological basis,
 | `LGBM_importance_rank.py` | Five-fold cross-validation and feature importance ranking for LightGBM models. |
 | `mediation_analysis.R` | Mediation analysis to evaluate whether retinal features mediate associations between upstream exposures and disease outcomes. |
 | `coloc.R` | Genetic colocalization analysis between retinal features and disease-associated loci. |
-| `MR.R` | Two-sample Mendelian randomization analysis using retinal features as exposures or outcomes. |
 | `enrichment.R` | Pathway enrichment analysis for disease-associated proteins or molecular signatures. |
 
 ## Script descriptions
@@ -151,22 +150,6 @@ The analysis requires genome-wide association summary statistics for retinal ima
 
 ---
 
-### `MR.R`
-
-**Title:** Two-sample Mendelian randomization analysis
-
-This script performs two-sample Mendelian randomization to investigate potential causal relationships involving retinal imaging features and systemic disease traits. Depending on the research question, retinal features may be evaluated as exposures or outcomes.
-
-Typical use cases include:
-
-- Testing whether genetically predicted retinal features influence disease risk
-- Evaluating whether systemic traits may causally affect retinal biomarkers
-- Complementing observational association and colocalization analyses
-- Strengthening causal inference in oculomics research
-
-The interpretation of Mendelian randomization results should consider instrument strength, pleiotropy, heterogeneity, and consistency across sensitivity analyses.
-
----
 
 ### `enrichment.R`
 
